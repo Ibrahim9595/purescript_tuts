@@ -1,0 +1,6 @@
+{
+  "purescript.pursExe": "./node_modules/purescript/purs.bin",
+  "[purescript]": {
+    "editor.tabSize": 2
+  }
+}
