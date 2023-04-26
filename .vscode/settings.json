@@ -1,5 +1,5 @@
 {
-  "purescript.pursExe": "./node_modules/purescript/purs.bin",
+  "purescript.pursExe": "/opt/homebrew/bin/purs",
   "[purescript]": {
     "editor.tabSize": 2
   }

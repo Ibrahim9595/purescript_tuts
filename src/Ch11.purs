@@ -8,7 +8,7 @@ import Data.List.Types (NonEmptyList(..))
 import Data.NonEmpty (NonEmpty, (:|))
 import Effect (Effect)
 import Effect.Class.Console (log)
-import Prelude (class Ord, class Semiring, type (~>), Unit, discard, negate, otherwise, show, zero, ($), (+), (-), (<<<), (<>), (>))
+import Prelude (class Ord, class Semiring, type (~>), Unit, discard, negate, otherwise, show, zero, ($), (+), (<<<), (<>), (>))
 
 reverse :: List ~> List
 reverse  = foldl (\ rl x -> x : rl) Nil
