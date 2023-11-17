@@ -2,9 +2,8 @@ module Main where
 
 import Prelude
 
-import Ch15 as Ch15
 import Effect (Effect)
-
+import Parser as P
 
 main :: Effect Unit
-main = Ch15.test
+main = P.test
