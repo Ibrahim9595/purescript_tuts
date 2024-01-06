@@ -1,4 +1,4 @@
-module Ch9  where
+module Ch9 where
 
 import Data.Generic.Rep (class Generic)
 import Data.Maybe (Maybe(..))
@@ -12,16 +12,23 @@ class Semigroup a where
 
 infixr 5 append as <>
 
-class Semigroup a <= Monoid a where
+class
+  Semigroup a <= Monoid a where
   mempty :: a
 
-class Monoid a <= Group a where
+class
+  Monoid a <= Group a where
   ginverse :: a -> a
-  
+
 class Semigroup g <= Commutative g
+
 -- AndBool type
-data AndBool = AFalse | ATrue
+data AndBool
+  = AFalse
+  | ATrue
+
 derive instance eqAndBool :: Eq AndBool
+
 derive instance genericAndBool :: Generic AndBool _
 
 instance showAndBool :: Show AndBool where
@@ -37,20 +44,24 @@ instance monoidAndBool :: Monoid AndBool where
 verifyAndBoolSemigroup :: Effect Unit
 verifyAndBoolSemigroup = do
   log "Verifying AndBool Semigroup Laws (1 test)"
-  log $ show $ (AFalse <> ATrue) <> ATrue == AFalse <> (ATrue <> ATrue) 
+  log $ show $ (AFalse <> ATrue) <> ATrue == AFalse <> (ATrue <> ATrue)
 
 verifyAndBoolMonoid :: Effect Unit
 verifyAndBoolMonoid = do
   log "Verifying AndBool Monoid Laws (2 tests)"
   log $ show $ ((ATrue <> mempty) == ATrue) && ((mempty <> ATrue) == ATrue)
   log $ show $ ((AFalse <> mempty) == AFalse) && ((mempty <> AFalse) == AFalse)
--- End AndBool type
 
+-- End AndBool type
 -- OrBool type
-data OrBool = OFalse | OTrue
+data OrBool
+  = OFalse
+  | OTrue
 
 derive instance eqOrBool :: Eq OrBool
+
 derive instance genericOrBool :: Generic OrBool _
+
 instance showOrBool :: Show OrBool where
   show = genericShow
 
@@ -64,7 +75,7 @@ instance monoidOrBool :: Monoid OrBool where
 verifyOrBoolSemigroup :: Effect Unit
 verifyOrBoolSemigroup = do
   log "Verifying OrBool Semigroup Laws (1 test)"
-  log $ show $ (OFalse <> OTrue) <> OTrue == OFalse <> (OTrue <> OTrue) 
+  log $ show $ (OFalse <> OTrue) <> OTrue == OFalse <> (OTrue <> OTrue)
 
 verifyOrBoolMonoid :: Effect Unit
 verifyOrBoolMonoid = do
@@ -73,24 +84,25 @@ verifyOrBoolMonoid = do
   log $ show $ mempty <> OFalse == OFalse <> mempty && OFalse <> mempty == OFalse
 
 -- End OrBool
-
 -- Mod4 type
-data Mod4 =  Zero | One | Two | Three
+data Mod4
+  = Zero
+  | One
+  | Two
+  | Three
+
 derive instance eqMod4 :: Eq Mod4
 
 instance semigroupMod4 :: Semigroup Mod4 where
   append Zero x = x
   append x Zero = x
-
   append One One = Two
   append One Two = Three
   append One Three = Zero
-  
   append Two One = Three
   append Two Two = Zero
   append Two Three = One
-  
-  append Three One = Zero  
+  append Three One = Zero
   append Three Two = One
   append Three Three = Two
 
@@ -119,11 +131,11 @@ verifyMod4Monoid = do
   log $ show $ Three <> mempty == Three && mempty <> Three == Three
 
 -- End Mod4 type
-
 -- First type
-newtype First a = First (Maybe a)
+newtype First a
+  = First (Maybe a)
 
-instance semigroupFirst :: Semigroup  (First a) where
+instance semigroupFirst :: Semigroup (First a) where
   append (First Nothing) last = last
   append first _ = first
 
@@ -134,10 +146,10 @@ instance showFirst :: Show a => Show (First a) where
   show (First x) = show x
 
 -- End First type
+newtype Last a
+  = Last (Maybe a)
 
-newtype Last a = Last (Maybe a)
-
-instance semigroupLast :: Semigroup  (Last a) where
+instance semigroupLast :: Semigroup (Last a) where
   append first (Last Nothing) = first
   append _ last = last
 
@@ -149,5 +161,5 @@ instance showLast :: Show a => Show (Last a) where
 
 test :: Effect Unit
 test = do
-    log $ show $ First Nothing <> First (Just 77) 
-    log $ show $ Last (Just 1) <> Last (Just 99) 
+  log $ show $ First Nothing <> First (Just 77)
+  log $ show $ Last (Just 1) <> Last (Just 99)
